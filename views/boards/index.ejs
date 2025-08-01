@@ -1,0 +1,71 @@
+<% layout('layout/boilerplate') -%>
+<div class="container mt-4">
+  <h2 class="mb-4">All Boards</h2>
+
+  <!-- Scrollable cards on mobile -->
+  <div class="row card-scroll-container">
+    <% boards.forEach(board => { %>
+      <div class="col-md-4 mb-4">
+        <a href="/boards/<%= board._id %>" style="text-decoration: none; color: inherit;">
+          <div class="card shadow-sm h-100 hover-shadow" style="transition: transform 0.3s;">
+            <div class="card-body">
+              <h5 class="card-title"><%= board.name %></h5>
+              <p class="card-text"><%= board.description %></p>
+              <p class="text-muted">Created by: <%= board.user.username || "Unknown" %></p>
+
+              <!-- Buttons -->
+              <div class="d-flex justify-content-between mt-3">
+                <a href="/boards/<%= board._id %>/edit" class="btn btn-sm btn-outline-primary">Edit</a>
+                <form action="/boards/<%= board._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure?');">
+                  <button class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="text-end mt-4">
+    <a href="/boards/new" class="btn btn-success">+ Create New Board</a>
+  </div>
+</div>
+
+
+<style>
+  .hover-shadow:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  @media (max-width: 576px) {
+    .card-title {
+      font-size: 1rem;
+    }
+
+    .card-text {
+      font-size: 0.85rem;
+    }
+
+    .btn-sm {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+    }
+
+    /* Make card container scrollable */
+    .card-scroll-container {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .card-scroll-container .col-md-4 {
+      flex: 0 0 auto;
+      width: 80%; /* Adjust width as needed */
+    }
+  }
+</style>

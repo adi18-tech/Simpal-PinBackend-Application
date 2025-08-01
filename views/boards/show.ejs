@@ -1,0 +1,75 @@
+<% layout('layout/boilerplate') -%>
+
+<div class="container">
+  <h1 class="mb-4"><%= board.name %></h1>
+
+<!-- Pins Section -->
+<style>
+  .pin-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pin-image-container {
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .pin-image-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .pin-card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+</style>
+
+<!-- Pins Section -->
+<div class="row mt-2">
+  <% if (board.pins.length === 0) { %>
+    <p>No pins yet.</p>
+  <% } else { %>
+    <% board.pins.forEach(pin => { %>
+      <div class="col-md-4 mb-4">
+        <div class="card pin-card">
+          <% if (pin.image) { %>
+            <div class="pin-image-container">
+              <img src="<%= pin.image %>" class="card-img-top" alt="<%= pin.title %>">
+            </div>
+          <% } %>
+          <div class="card-body pin-card-body">
+            <div>
+              <h5 class="card-title"><%= pin.title %></h5>
+              <% if (pin.description) { %>
+                <p class="card-text"><%= pin.description %></p>
+              <% } %>
+            </div>
+            <div>
+              <a href="/boards/<%= board._id %>/pins/<%= pin._id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+
+              <form action="/boards/<%= board._id %>/pins/<%= pin._id %>?_method=DELETE" method="POST" style="display: inline-block;">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this pin?');">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  <% } %>
+</div>
+
+<a href="/boards/<%= board._id %>/pins/new" class="btn btn-primary mb-3">➕ Add New Pin</a>
+
+
+  <!-- Horizontal line -->
+  <hr class="my-5">
+
+  
+
+</div>

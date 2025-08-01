@@ -1,0 +1,29 @@
+<% layout('layout/boilerplate') -%>
+
+<div class="container">
+  <h2>Edit Pin</h2>
+  <form action="/boards/<%= boardId %>/pins/<%= pin._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" name="title" id="title" class="form-control" value="<%= pin.title %>" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <input type="text" name="description" id="description" class="form-control" value="<%= pin.description %>">
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Update Image</label>
+      <input type="file" name="image" id="image" class="form-control" accept="image/*">
+      <% if (pin.image) { %>
+        <div class="mt-2">
+          <img src="<%= pin.image %>" alt="Current image" class="img-fluid" style="max-width: 200px;">
+        </div>
+      <% } %>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Pin</button>
+    <a href="/boards/<%= boardId %>" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>

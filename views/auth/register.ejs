@@ -1,0 +1,53 @@
+<% layout('layout/boilerplate') -%>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow p-4" style="max-width: 450px; width: 100%;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">📝 Create Your Account</h3>
+
+      <form method="POST" action="/register">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="form-control"
+            placeholder="Choose a username"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-control"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control"
+            placeholder="Create a password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Sign Up</button>
+      </form>
+
+      <div class="text-center mt-3">
+        <p class="mb-0">Already have an account? <a href="/login" class="text-decoration-none">Login here</a></p>
+      </div>
+    </div>
+  </div>
+</div>

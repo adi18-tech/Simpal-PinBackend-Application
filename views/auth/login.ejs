@@ -1,0 +1,27 @@
+<% layout('layout/boilerplate') -%>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">🔐 Login to PinBoard</h3>
+
+      <form action="/login" method="POST">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" name="username" class="form-control" id="username" required placeholder="Enter your username">
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" name="password" class="form-control" id="password" required placeholder="••••••••">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+
+      <div class="text-center mt-3">
+        <p class="mb-0">Don't have an account? <a href="/register" class="text-decoration-none">Register here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
