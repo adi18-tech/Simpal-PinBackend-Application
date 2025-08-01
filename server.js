@@ -38,18 +38,19 @@ app.use(methodOverride('_method'));
 
 // 🛡️ Session Config with MongoStore (better for production)
 app.use(session({
-  secret: 'keyboard cat', // change in production
+  secret: process.env.SESSION_SECRET, // ✅ Read from .env
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
-    touchAfter: 24 * 3600
+    touchAfter: 24 * 3600 // 1 day
   }),
   cookie: {
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
   }
 }));
+
 
 // 🔔 Flash messages
 app.use(flash());

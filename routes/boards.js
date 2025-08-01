@@ -4,42 +4,24 @@ const Board = require('../models/Board');
 const Pin = require('../models/Pin');
 const User = require('../models/User');
 const upload = require('../config/multer');
+const { isLoggedIn, isBoardOwner } = require('../middlware');
 
-// 🔐 Middleware to check if user is logged in
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  req.flash('error', 'You must be logged in to do that.');
-  res.redirect('/login');
-}
 
-// 🛡️ Middleware to check if current user owns the board
-async function isBoardOwner(req, res, next) {
-  const board = await Board.findById(req.params.id);
-  if (!board) {
-    req.flash('error', 'Board not found.');
-    return res.redirect('/boards');
-  }
-  if (!board.user.equals(req.user._id)) {
-    req.flash('error', 'You do not have permission to do that.');
-    return res.redirect('/boards');
-  }
-  next();
-}
 
 // -------------------- Boards Routes --------------------
 
-// GET /boards - List all boards
+// - List all boards
 router.get('/', async (req, res) => {
   const boards = await Board.find().populate('user');
   res.render('boards/index', { boards });
 });
 
-// GET /boards/new - Form to create a new board
+// - Form to create a new board
 router.get('/new', isLoggedIn, (req, res) => {
   res.render('boards/new');
 });
 
-// POST /boards - Create a new board
+// Create a new board
 router.post('/', isLoggedIn, async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -54,13 +36,13 @@ router.post('/', isLoggedIn, async (req, res) => {
   }
 });
 
-// GET /boards/:id/edit - Form to edit a board
+//   - Form to edit a board
 router.get('/:id/edit', isLoggedIn, isBoardOwner, async (req, res) => {
   const board = await Board.findById(req.params.id);
   res.render('boards/edit', { board });
 });
 
-// PUT /boards/:id - Update board
+//  - Update board
 router.put('/:id', isLoggedIn, isBoardOwner, async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -74,7 +56,7 @@ router.put('/:id', isLoggedIn, isBoardOwner, async (req, res) => {
   }
 });
 
-// DELETE /boards/:id - Delete board
+// - Delete board
 router.delete('/:id', isLoggedIn, isBoardOwner, async (req, res) => {
   try {
     await Board.findByIdAndDelete(req.params.id);
