@@ -1,9 +1,7 @@
- 
+ const Pin = require('./models/Pin');
+ const Board = require('./models/Board');
 
-
-
-//🔐 Middleware to check if user is logged in
-
+//🔐 Middleware to check if user is logged 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
   req.flash('error', 'You must be logged in to do that.');
@@ -24,6 +22,35 @@ async function isBoardOwner(req, res, next) {
   next();
 }
 
+ 
+
+
+ 
+
+// ======= Middleware to check if current user is the owner of the pin =========
+async function isPinOwner(req, res, next) {
+  try {
+    const pin = await Pin.findById(req.params.pinId);
+    if (!pin) {
+      req.flash('error', 'Pin not found');
+      return res.redirect('back');
+    }
+
+    if (!pin.user.equals(req.user._id)) {
+      req.flash('error', 'You do not have permission to do that.');
+      return res.redirect(`/boards/${req.params.boardId}`);
+    }
+
+    next();
+  } catch (err) {
+    console.error(err);
+    req.flash('error', 'Something went wrong');
+    res.redirect('back');
+  }
+}
+
 module.exports = {
-  isLoggedIn,isBoardOwner
+  isLoggedIn,
+  isBoardOwner,
+  isPinOwner
 };

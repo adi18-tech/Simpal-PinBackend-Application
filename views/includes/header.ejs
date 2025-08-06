@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom shadow-sm py-3">
+<nav class="navbar navbar-expand-lg bg-orange border-bottom shadow-sm py-3">
   <div class="container-fluid px-3">
-    <a class="navbar-brand fw-bold text-dark fs-4 d-flex align-items-center" href="/pins">
-      <span class="text-primary-emphasis me-2 fs-3">📌</span> 
-      <span class="text-dark">PinBoard</span><span class="text-secondary">App</span>
+    <a class="navbar-brand fw-bold fs-4 d-flex align-items-center" href="/pins">
+      <span class="me-2 fs-3">📌</span> 
+      <span class="text-white">PinBoard</span><span class="text-light">App</span>
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,20 +12,20 @@
     <div class="collapse navbar-collapse mt-3 mt-lg-0 justify-content-lg-end" id="navbarMain">
       <ul class="navbar-nav ms-auto gap-2 text-center text-lg-start">
         <li class="nav-item">
-          <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" href="/boards">🏠 Home</a>
+          <a class="nav-link fw-semibold px-3 py-2 rounded hover-bg" href="/boards">🏠 Home</a>
         </li>
 
         <% if (!currentUser) { %>
           <li class="nav-item">
-            <a class="nav-link text-primary fw-semibold px-3 py-2 rounded hover-bg" href="/login">🔐 Login</a>
+            <a class="nav-link fw-semibold px-3 py-2 rounded hover-bg" href="/login">🔐 Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-success fw-semibold px-3 py-2 rounded hover-bg" href="/register">📝 Register</a>
+            <a class="nav-link fw-semibold px-3 py-2 rounded hover-bg" href="/register">📝 Register</a>
           </li>
         <% } else { %>
           <li class="nav-item">
             <form action="/logout" method="POST" class="d-inline">
-              <button class="nav-link btn text-danger fw-semibold px-3 py-2 rounded hover-bg w-100 text-start text-lg-center" style="border: none;">🚪 Logout</button>
+              <button class="nav-link btn fw-semibold px-3 py-2 rounded hover-bg w-100 text-start text-lg-center" style="border: none;">🚪 Logout</button>
             </form>
           </li>
         <% } %>
@@ -34,9 +34,29 @@
   </div>
 </nav>
 
-
-
 <style>
+  /* Custom orangish background */
+  .bg-orange {
+    background-color: #ff8c42 !important;
+  }
+
+  /* Navbar text colors */
+  .navbar .nav-link {
+    color: white !important;
+  }
+
+  /* Hover effect for nav links */
+  .navbar .nav-link:hover,
+  .hover-bg:hover {
+    background-color: #ffad66 !important;
+    color: black !important;
+  }
+
+  /* Brand text color */
+  .navbar .navbar-brand span {
+    color: white !important;
+  }
+
   @media (max-width: 576px) {
     .navbar-nav .nav-link {
       font-size: 1rem;
@@ -46,9 +66,5 @@
     .navbar-brand {
       font-size: 1.25rem;
     }
-  }
-
-  .hover-bg:hover {
-    background-color: #f0f0f0;
   }
 </style>

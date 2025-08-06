@@ -1,15 +1,15 @@
-// routes/pins.js
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 
 const Board = require('../models/Board');
 const Pin = require('../models/Pin');
 const upload = require('../config/multer');
+ 
+const { isLoggedIn, isPinOwner } = require('../middlware');
 
-const DEFAULT_USER = '688b79e1b9a2f4bdb9b5f899';
-
-// NEW PIN FORM
-router.get('/new', async (req, res) => {
+ 
+// ======= NEW PIN FORM =========
+router.get('/new', isLoggedIn, async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);
     if (!board) {
@@ -24,8 +24,8 @@ router.get('/new', async (req, res) => {
   }
 });
 
-// CREATE PIN
-router.post('/', upload.single('image'), async (req, res) => {
+// ======= CREATE PIN =========
+router.post('/', isLoggedIn, upload.single('image'), async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);
     if (!board) {
@@ -39,7 +39,8 @@ router.post('/', upload.single('image'), async (req, res) => {
       title: req.body.title,
       description: req.body.description,
       image: imagePath,
-      user: DEFAULT_USER
+      board: board._id,
+      user: req.user._id
     });
 
     await pin.save();
@@ -55,8 +56,8 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 });
 
-// SHOW EDIT FORM
-router.get('/:pinId/edit', async (req, res) => {
+// ======= SHOW EDIT FORM =========
+router.get('/:pinId/edit', isLoggedIn, isPinOwner, async (req, res) => {
   try {
     const pin = await Pin.findById(req.params.pinId);
     if (!pin) {
@@ -72,8 +73,8 @@ router.get('/:pinId/edit', async (req, res) => {
   }
 });
 
-// UPDATE PIN
-router.put('/:pinId', upload.single('image'), async (req, res) => {
+// ======= UPDATE PIN =========
+router.put('/:pinId', isLoggedIn, isPinOwner, upload.single('image'), async (req, res) => {
   try {
     const pin = await Pin.findById(req.params.pinId);
     if (!pin) {
@@ -99,8 +100,8 @@ router.put('/:pinId', upload.single('image'), async (req, res) => {
   }
 });
 
-// DELETE PIN
-router.delete('/:pinId', async (req, res) => {
+// ======= DELETE PIN =========
+router.delete('/:pinId', isLoggedIn, isPinOwner, async (req, res) => {
   try {
     const { boardId, pinId } = req.params;
 
