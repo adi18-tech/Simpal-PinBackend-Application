@@ -3,11 +3,15 @@ const router = express.Router({ mergeParams: true });
 
 const Board = require('../models/Board');
 const Pin = require('../models/Pin');
+
+// Multer setup (for temporary file handling)
 const upload = require('../config/multer');
- 
+
+// Cloudinary helper
+const { uploadToCloudinary } = require('../config/cloudinary');
+
 const { isLoggedIn, isPinOwner } = require('../middlware');
 
- 
 // ======= NEW PIN FORM =========
 router.get('/new', isLoggedIn, async (req, res) => {
   try {
@@ -33,12 +37,17 @@ router.post('/', isLoggedIn, upload.single('image'), async (req, res) => {
       return res.redirect('/boards');
     }
 
-    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+    let imageUrl = null;
+    if (req.file) {
+      // Upload to Cloudinary
+      const result = await uploadToCloudinary(req.file.path, "pins");
+      imageUrl = result; // secure URL returned from Cloudinary
+    }
 
     const pin = new Pin({
       title: req.body.title,
       description: req.body.description,
-      image: imagePath,
+      image: imageUrl,
       board: board._id,
       user: req.user._id
     });
@@ -52,6 +61,22 @@ router.post('/', isLoggedIn, upload.single('image'), async (req, res) => {
   } catch (err) {
     console.error(err);
     req.flash('error', 'Failed to add pin');
+    res.redirect(`/boards/${req.params.boardId}`);
+  }
+});
+
+// ======= SHOW PIN (new route for rendering individual pin) =========
+router.get('/:pinId', isLoggedIn, async (req, res) => {
+  try {
+    const pin = await Pin.findById(req.params.pinId).populate('board');
+    if (!pin) {
+      req.flash('error', 'Pin not found');
+      return res.redirect(`/boards/${req.params.boardId}`);
+    }
+    res.render('pins/show', { pin, boardId: req.params.boardId });
+  } catch (err) {
+    console.error(err);
+    req.flash('error', 'Server error while loading pin');
     res.redirect(`/boards/${req.params.boardId}`);
   }
 });
@@ -86,7 +111,8 @@ router.put('/:pinId', isLoggedIn, isPinOwner, upload.single('image'), async (req
     pin.description = req.body.description;
 
     if (req.file) {
-      pin.image = `/uploads/${req.file.filename}`;
+      const result = await uploadToCloudinary(req.file.path, "pins");
+      pin.image = result;
     }
 
     await pin.save();

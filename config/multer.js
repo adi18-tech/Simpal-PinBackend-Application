@@ -1,16 +1,12 @@
-const multer = require('multer');
-const path = require('path');
+// config/multer.js
+const multer = require("multer");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/uploads/'); 
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext);
-  }
-});
+// memory storage -> req.file.buffer will exist (no local file saved)
+const storage = multer.memoryStorage();
 
-const upload = multer({ storage: storage });
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype && file.mimetype.startsWith("image/")) cb(null, true);
+  else cb(new Error("Only image files are allowed"), false);
+};
 
-module.exports = upload;
+module.exports = multer({ storage, fileFilter });
