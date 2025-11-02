@@ -1,7 +1,7 @@
 // config/multer.js
 const multer = require("multer");
 
-// memory storage -> req.file.buffer will exist (no local file saved)
+ 
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {

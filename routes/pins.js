@@ -4,6 +4,7 @@ const router = express.Router({ mergeParams: true });
 const Board = require('../models/Board');
 const Pin = require('../models/Pin');
 
+
 // Multer setup (for temporary file handling)
 const upload = require('../config/multer');
 
@@ -40,7 +41,7 @@ router.post('/', isLoggedIn, upload.single('image'), async (req, res) => {
     let imageUrl = null;
     if (req.file) {
       // Upload to Cloudinary
-      const result = await uploadToCloudinary(req.file.path, "pins");
+      const result = await uploadToCloudinary(req.file.buffer, "pins",true);
       imageUrl = result; // secure URL returned from Cloudinary
     }
 

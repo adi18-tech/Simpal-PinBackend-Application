@@ -1,4 +1,4 @@
-<footer class="bg-dark text-white text-center mt-5 py-4 w-100">
+<footer class="bg-dark text-white text-center py-3 footer-fixed">
   <div class="container-fluid">
     <p class="mb-0 small">
       © 2025 <strong class="text-primary">SimplePin</strong> App &middot; Built with 
@@ -9,3 +9,19 @@
     </p>
   </div>
 </footer>
+
+<style>
+  .footer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #212529; /* same as .bg-dark */
+    z-index: 1030; /* keeps it above other elements */
+  }
+
+  /* Prevent content overlap with footer */
+  body {
+    padding-bottom: 70px; /* match footer height */
+  }
+</style>

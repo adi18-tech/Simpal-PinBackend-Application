@@ -1,23 +1,31 @@
 <% layout('layout/boilerplate') -%>
-<div class="container mt-4">
-  <h2 class="mb-4">All Boards</h2>
 
-  <!-- Scrollable cards on mobile -->
+<div class="container mt-4">
+  <h2 class="mb-4 fw-bold text-primary">All Boards</h2>
+
+  <!-- Normal stacked cards on mobile -->
   <div class="row card-scroll-container">
     <% boards.forEach(board => { %>
       <div class="col-md-4 mb-4">
-        <a href="/boards/<%= board._id %>" style="text-decoration: none; color: inherit;">
-          <div class="card shadow-sm h-100 hover-shadow" style="transition: transform 0.3s;">
+        <a href="/boards/<%= board._id %>" class="text-decoration-none text-dark">
+          <div class="card board-card shadow-sm h-100 hover-shadow">
             <div class="card-body">
-              <h5 class="card-title"><%= board.name %></h5>
-              <p class="card-text"><%= board.description %></p>
-              <p class="text-muted">Created by: <%= board.user.username || "Unknown" %></p>
+              <h5 class="card-title fw-semibold text-dark"><%= board.name %></h5>
+              <p class="card-text text-secondary"><%= board.description %></p>
+              <p class="text-muted small mb-0">
+                <i class="fa-solid fa-user me-1 text-primary"></i>
+                Created by: <%= board.user.username || "Unknown" %>
+              </p>
 
               <!-- Buttons -->
               <div class="d-flex justify-content-between mt-3">
-                <a href="/boards/<%= board._id %>/edit" class="btn btn-sm btn-outline-primary">Edit</a>
+                <a href="/boards/<%= board._id %>/edit" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                  <i class="fa-solid fa-pen me-1"></i>Edit
+                </a>
                 <form action="/boards/<%= board._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure?');">
-                  <button class="btn btn-sm btn-outline-danger">Delete</button>
+                  <button class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                    <i class="fa-solid fa-trash me-1"></i>Delete
+                  </button>
                 </form>
               </div>
             </div>
@@ -28,44 +36,60 @@
   </div>
 
   <div class="text-end mt-4">
-    <a href="/boards/new" class="btn btn-success">+ Create New Board</a>
+    <a href="/boards/new" class="btn btn-success rounded-pill px-4 py-2">
+      <i class="fa-solid fa-plus me-2"></i>Create New Board
+    </a>
   </div>
 </div>
 
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-  .hover-shadow:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease-in-out;
+  /* Rounded square design */
+  .board-card {
+    border-radius: 1rem; /* rounded square */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    transition: all 0.25s ease-in-out;
   }
 
+  /* Hover effect */
+  .hover-shadow:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Button glow */
+  .btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+    box-shadow: 0 0 10px rgba(13, 110, 253, 0.5);
+  }
+
+  .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+    box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+  }
+
+  /* Fixed: normal vertical layout on mobile */
   @media (max-width: 576px) {
-    .card-title {
-      font-size: 1rem;
-    }
-
-    .card-text {
-      font-size: 0.85rem;
-    }
-
-    .btn-sm {
-      font-size: 0.75rem;
-      padding: 4px 8px;
-    }
-
-    /* Make card container scrollable */
     .card-scroll-container {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      gap: 1rem;
-      padding-bottom: 1rem;
+      display: block;
+      overflow-x: hidden;
     }
 
     .card-scroll-container .col-md-4 {
-      flex: 0 0 auto;
-      width: 80%; /* Adjust width as needed */
+      width: 100%;
     }
+
+    .board-card {
+      margin-bottom: 1rem;
+    }
+  }
+
+  body {
+    background-color: #f3f6fa;
   }
 </style>

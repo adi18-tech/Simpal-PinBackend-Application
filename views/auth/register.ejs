@@ -1,53 +1,67 @@
 <% layout('layout/boilerplate') -%>
 
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-  <div class="card shadow p-4" style="max-width: 450px; width: 100%;">
-    <div class="card-body">
-      <h3 class="card-title text-center mb-4">📝 Create Your Account</h3>
+<div class="container-fluid min-vh-100 d-flex flex-column flex-md-row p-0">
+  
+  <!-- Left Section (Banner / Branding) -->
+  <div class="col-md-6 d-flex flex-column justify-content-center align-items-center text-center bg-success text-white p-5">
+    <i class="fa-solid fa-user-plus fa-4x mb-3"></i>
+    <h1 class="fw-bold mb-3">Join PinBoard</h1>
+    <p class="lead">Create your account and start saving your favorite pins effortlessly.</p>
+  </div>
 
-      <form method="POST" action="/register">
-        <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            class="form-control"
-            placeholder="Choose a username"
-            required
-          />
+  <!-- Right Section (Register Form) -->
+  <div class="col-md-6 d-flex justify-content-center align-items-center bg-light p-4">
+    <div class="card shadow-sm border-0 p-4 rounded-4 w-100" style="max-width: 420px;">
+      <div class="card-body">
+        <h3 class="text-center mb-4 fw-bold text-success">Register</h3>
+
+        <form action="/register" method="POST">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" class="form-control form-control-lg" id="username" required placeholder="Choose a username">
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" class="form-control form-control-lg" id="email" required placeholder="Enter your email">
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control form-control-lg" id="password" required placeholder="Create a password">
+          </div>
+
+          <button type="submit" class="btn btn-success btn-lg w-100 rounded-3">Sign Up</button>
+        </form>
+
+        <div class="text-center mt-3">
+          <p class="mb-0">Already have an account? 
+            <a href="/login" class="text-decoration-none text-success fw-semibold">Login</a>
+          </p>
         </div>
-
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            class="form-control"
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            class="form-control"
-            placeholder="Create a password"
-            required
-          />
-        </div>
-
-        <button type="submit" class="btn btn-success w-100">Sign Up</button>
-      </form>
-
-      <div class="text-center mt-3">
-        <p class="mb-0">Already have an account? <a href="/login" class="text-decoration-none">Login here</a></p>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .bg-success {
+    background: linear-gradient(135deg, #28a745, #1e7e34);
+  }
+
+  @media (max-width: 768px) {
+    .container-fluid {
+      flex-direction: column;
+    }
+    .col-md-6 {
+      width: 100%;
+    }
+  }
+</style>
