@@ -7,11 +7,8 @@ The project focuses on providing a **secure, responsive, and user-friendly** pla
 
 ---
 
-## 🌐 Live Live
-🔗 **Live Link:** https://simpal-pinbackend-application-3.onrender.com)
-*(Replace this wactualr actual dURLoyed URL once live)*
-
----
+## 🌐 Live Demo
+🔗 **Live Link:** [https://simpal-pinbackend-application-3.onrender.com](https://simpal-pinbackend-application-3.onrender.com)--
 
 ## 🚀 Features
 - 🔐 User authentication and authorization (Signup/Login)
